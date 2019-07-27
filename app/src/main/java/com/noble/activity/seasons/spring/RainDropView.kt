@@ -17,8 +17,8 @@ import kotlin.math.sqrt
 class RainDropView @JvmOverloads constructor(context: Context, @Nullable attrs: AttributeSet? = null) :
     View(context, attrs) {
 
-    private var mPaint: Paint? = null
-    private var mPath: Path? = null
+    private lateinit var mPaint: Paint
+    private lateinit var mPath: Path
 
     private var viewWidth: Int = 0
     private var viewHeight: Int = 0
@@ -71,8 +71,8 @@ class RainDropView @JvmOverloads constructor(context: Context, @Nullable attrs: 
         }
 
         mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        mPaint!!.color = Color.WHITE
-        mPaint!!.style = Paint.Style.FILL
+        mPaint.color = Color.WHITE
+        mPaint.style = Paint.Style.FILL
 
         mPath = Path()
 
@@ -86,13 +86,13 @@ class RainDropView @JvmOverloads constructor(context: Context, @Nullable attrs: 
      * @param alpha float: 0 ~ 1
      */
     fun setMaxAlpha(alpha: Float) {
-        var alpha = alpha
-        if (alpha <= 0) {
-            alpha = 0.01f
-        } else if (alpha > 1) {
-            alpha = 1f
+        var a = alpha
+        if (a <= 0) {
+            a = 0.01f
+        } else if (a > 1) {
+            a = 1f
         }
-        MAX_ALPHA = (255 * alpha).toInt()
+        MAX_ALPHA = (255 * a).toInt()
     }
 
     /**
@@ -164,27 +164,27 @@ class RainDropView @JvmOverloads constructor(context: Context, @Nullable attrs: 
             rainDots[i].y += rainDots[i].speed + MIN_SPEED
 
             //draw dot
-            mPath!!.reset()
+            mPath.reset()
             val scaleYDiff = MAX_LENGTH * rainDots[i].speed / MAX_SPEED
             val R = WATER_R
             val L = MIN_LENGTH + scaleYDiff
-            mPath!!.addCircle(R, L, R, Path.Direction.CW)
-            mPath!!.moveTo(R, 0f)
+            mPath.addCircle(R, L, R, Path.Direction.CW)
+            mPath.moveTo(R, 0f)
             val x =
                 R + sqrt(R.toDouble().pow(2.0) - R.toDouble().pow(4.0) / L.toDouble().pow(2.0))
             val y = L - R.toDouble().pow(2.0) / L.toDouble()
-            mPath!!.lineTo(x.toFloat(), y.toFloat())
-            mPath!!.lineTo((2 * R - x).toFloat(), y.toFloat())
-            mPath!!.close()
-            mPath!!.offset(rainDots[i].x.toFloat(), rainDots[i].y.toFloat())
+            mPath.lineTo(x.toFloat(), y.toFloat())
+            mPath.lineTo((2 * R - x).toFloat(), y.toFloat())
+            mPath.close()
+            mPath.offset(rainDots[i].x.toFloat(), rainDots[i].y.toFloat())
 
             if (hasAlphaGrad) {
-                mPaint!!.alpha = (rainDots[i].alpha * MAX_ALPHA).toInt()
+                mPaint.alpha = (rainDots[i].alpha * MAX_ALPHA).toInt()
             } else {
-                mPaint!!.alpha = MAX_ALPHA
+                mPaint.alpha = MAX_ALPHA
             }
 
-            canvas.drawPath(mPath!!, mPaint!!)
+            canvas.drawPath(mPath, mPaint)
         }
 
         invalidate()
