@@ -10,4 +10,18 @@
         <attr name="rv_max_alpha" format="float|reference"/>
         <attr name="rv_alpha_gradient" format="boolean|reference"/>
     </declare-styleable>
+
+    <declare-styleable name="LeavesLoading">
+        <attr name="leafSrc" format="reference"/>
+        <attr name="fanSrc" format="reference"/>
+        <attr name="bgColor" format="color"/>
+        <attr name="progress" format="integer"/>
+        <attr name="progressColor" format="color"/>
+        <attr name="leafFloatSpeed" format="integer"/>
+        <attr name="leafRotateSpeed" format="integer"/>
+        <attr name="fanRotateSpeed" format="integer"/>
+        <attr name="leafNum" format="integer"/>
+        <attr name="fanStrokeColor" format="color"/>
+    </declare-styleable>
+
 </resources>
