@@ -7,22 +7,6 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <com.noble.activity.seasons.autumn.FallingLeavesView20
-            android:id="@+id/fallingLeavesView"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_dark"
-
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-    />
-
-
-
     <!--<com.noble.activity.seasons.winter.SnowFlakeView-->
             <!--android:id="@+id/snowFlakeView"-->
             <!--android:background="@android:color/holo_blue_dark"-->
@@ -30,26 +14,26 @@
             <!--android:layout_height="0dp"-->
             <!--app:layout_constraintBottom_toBottomOf="parent"-->
             <!--app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--app:layout_constraintRight_toLeftOf="@id/rainDropView"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/fallingLeavesView"/>-->
-
-    <!--<com.noble.activity.seasons.spring.RainDropView-->
-            <!--android:id="@+id/rainDropView"-->
-            <!--android:background="@android:color/holo_blue_dark"-->
-            <!--app:rv_dot_count="50"-->
-            <!--app:rv_max_length="30dp"-->
-            <!--app:rv_min_length="10dp"-->
-            <!--app:rv_max_speed="30"-->
-            <!--app:rv_min_speed="15"-->
-            <!--app:rv_alpha_gradient="true"-->
-            <!--app:rv_max_alpha="0.6"-->
-            <!--app:rv_water_radius="1.7dp"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="0dp"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintLeft_toRightOf="@id/snowFlakeView"-->
             <!--app:layout_constraintRight_toRightOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/fallingLeavesView"/>-->
+            <!--app:layout_constraintTop_toTopOf="parent"/>-->
+
+    <com.noble.activity.seasons.spring.RainDropView
+            android:id="@+id/rainDropView"
+            android:background="@android:color/holo_blue_dark"
+            app:rv_dot_count="50"
+            app:rv_max_length="30dp"
+            app:rv_min_length="10dp"
+            app:rv_max_speed="30"
+            app:rv_min_speed="15"
+            app:rv_alpha_gradient="true"
+            app:rv_max_alpha="0.6"
+            app:rv_water_radius="1.7dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
 
