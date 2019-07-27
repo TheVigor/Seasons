@@ -7,16 +7,18 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <!--<com.noble.activity.seasons.winter.SnowFlakeView-->
-            <!--android:background="@android:color/holo_blue_dark"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--app:layout_constraintRight_toRightOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent"/>-->
+    <com.noble.activity.seasons.winter.SnowFlakeView
+            android:id="@+id/snowFlakeView"
+            android:background="@android:color/holo_blue_dark"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/rainDropView"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <com.noble.activity.seasons.spring.RainDropView
+            android:id="@+id/rainDropView"
             android:background="@android:color/holo_blue_dark"
             app:rv_dot_count="50"
             app:rv_max_length="30dp"
@@ -26,10 +28,10 @@
             app:rv_alpha_gradient="true"
             app:rv_max_alpha="0.6"
             app:rv_water_radius="1.7dp"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/snowFlakeView"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
