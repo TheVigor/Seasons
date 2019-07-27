@@ -19,34 +19,36 @@ class FallingLeavesView : View {
 
     companion object {
 
-        private val TAG = "FallingLeavesView"
-        private val LOADING_COMPLETED = "100%"
-
         private val DEFAULT_LEAF_FLOAT_TIME: Long = 1500       //叶子飘动一个周期花费的时间
         private val DEFAULT_LEAF_ROTATE_TIME: Long = 2000      //叶子旋转一个周期花费的时间
     }
 
-
     private var mHeight: Int = 0
     private var mWidth: Int = 0
+
     private var mDefaultHeight: Int = 0
     private var mMinWidth: Int = 0
     private var mMinHeight: Int = 0
     private var mMaxHeight: Int = 0
+
     private var mYellowOvalHeight: Int = 0//进度条高
     private var mProgressMargin: Int = 0//进度与边界的Margin
     private var mFanRotationAngle = 0//叶子每次旋转的角度
     private var mProgressLen: Int = 0//px，进度长度，用于计算叶子飘动轨迹
+
     private var mFanLen: Int = 0//单个扇叶长度
     private var mFanCx: Int = 0//风扇坐标
     private var mFanCy: Int = 0
     private var mFanBitmapWidth: Int = 0//FanBitmap宽和长
     private var mFanBitmapHeight: Int = 0
+
     private var mLeafBitmapWidth: Int = 0//LeafBitmap宽和长
     private var mLeafBitmapHeight: Int = 0
     private var mLeafLen: Int = 0//叶片边长（叶子须是正方形）
+
     private var mProgressPaint: Paint? = null
     private var mBgPaint: Paint? = null
+
     private var mFanStrokePaint: Paint? = null
     private var mBitmapPaint: Paint? = null
     private var mLeafBitmap: Bitmap? = null
@@ -71,12 +73,6 @@ class FallingLeavesView : View {
     private val mLeafList = mutableListOf<Leaf>()
     private val mLeafFactory = LeafFactory()
 
-    /**
-     * 设置进度（自动刷新）
-     * @param progress 0-100
-     */
-    //loading 100% 特效
-    // 255 不透明
     var progress: Int
         get() = mProgress
         set(progress) {
@@ -96,10 +92,7 @@ class FallingLeavesView : View {
             postInvalidate()
         }
 
-    /**
-     * 设置叶子数目（自动刷新）
-     * @param num 大于等于0的整数
-     */
+
     var leafNum: Int
         get() = mLeafNum
         set(num) {
@@ -112,10 +105,6 @@ class FallingLeavesView : View {
             postInvalidate()
         }
 
-    /**
-     * 设置每片叶子一个漂浮周期时间
-     * @param time 默认值为 1500
-     */
     var leafFloatTime: Long
         get() = mLeafFloatTime
         set(time) {
@@ -126,10 +115,7 @@ class FallingLeavesView : View {
             postInvalidate()
         }
 
-    /**
-     * 设置每片叶子的旋转周期时间
-     * @param time 默认值为 2000
-     */
+
     var leafRotateTime: Long
         get() = mLeafRotateTime
         set(time) {
@@ -299,14 +285,6 @@ class FallingLeavesView : View {
         mCompletedTextPaint!!.setTextSize(mCompletedTextSize)
     }
 
-    /**
-     * 根据测量模式获取相应的值
-     * @param min 最小值(-1为不限)
-     * @param max 最大值（-1为不限）
-     * @param wrap wrap_content 时的取值
-     * @param measureSpec 测量模式
-     * @return 计算后得到的长度
-     */
     private fun getSize(min: Int, max: Int, wrap: Int, measureSpec: Int): Int {
         var result = min
         val specMode = MeasureSpec.getMode(measureSpec)
@@ -337,87 +315,12 @@ class FallingLeavesView : View {
         super.onDraw(canvas)
         //背景
         mBgPaint!!.setStyle(Paint.Style.FILL)
-        canvas.drawRoundRect(
-            0f,
-            0f,
-            mWidth.toFloat(),
-            mHeight.toFloat(),
-            mHeight / 2f,
-            mHeight / 2f,
-            mBgPaint!!
-        )
-        //叶子
+
         drawLeaves(canvas)
-        //外圈（为了遮住超出背景的叶子）
-        drawStrokeOval(canvas)
-        // 进度条
-        drawProgress(canvas, mProgress)
-        //扇子外圈
-        canvas.drawCircle(
-            mFanCx.toFloat(),
-            mFanCy.toFloat(),
-            (mHeight / 2).toFloat(),
-            mFanStrokePaint!!
-        )
-        //扇子内圈
-        canvas.drawCircle(
-            mFanCx.toFloat(),
-            mFanCy.toFloat(),
-            ((mHeight - mProgressMargin) / 2).toFloat(),
-            mProgressPaint!!
-        )
-        if (isLoadingCompleted) {
-            //绘制加载完成特效
-            drawCompleted(canvas)
-        } else {
-            //绘制扇叶
-            drawFan(canvas, mFanLen, mBitmapPaint)
-        }
-        //刷新
         postInvalidate()
     }
 
-    /**
-     * 画白色外圈
-     */
-    private fun drawStrokeOval(canvas: Canvas) {
-        canvas.save()
-        val path = Path()
-        path.setFillType(Path.FillType.EVEN_ODD)
-        path.addRoundRect(
-            0f,
-            0f,
-            mWidth.toFloat(),
-            mHeight.toFloat(),
-            mHeight / 2f,
-            mHeight / 2f,
-            Path.Direction.CW
-        )
-        path.addRoundRect(
-            mProgressMargin.toFloat(),
-            mProgressMargin.toFloat(),
-            (mWidth - mProgressMargin).toFloat(),
-            (mHeight - mProgressMargin).toFloat(),
-            (mYellowOvalHeight / 2).toFloat(),
-            (mYellowOvalHeight / 2).toFloat(),
-            Path.Direction.CW
-        )
-        canvas.clipPath(path)
-        canvas.drawRoundRect(
-            0f,
-            0f,
-            mWidth.toFloat(),
-            mHeight.toFloat(),
-            mHeight / 2f,
-            mHeight / 2f,
-            mBgPaint!!
-        )
-        canvas.restore()
-    }
 
-    /**
-     * 画叶子
-     */
     private fun drawLeaves(canvas: Canvas) {
         val currentTime = System.currentTimeMillis()
         for (leaf in mLeafList) {
@@ -454,11 +357,6 @@ class FallingLeavesView : View {
         }
     }
 
-    /**
-     * 获取叶子的（x,y）位置
-     * @param leaf 叶子
-     * @param currentTime 当前时间
-     */
     private fun getLeafLocation(leaf: Leaf, currentTime: Long) {
         val intervalTime = currentTime - leaf.startTime
         if (intervalTime <= 0) {
@@ -478,11 +376,6 @@ class FallingLeavesView : View {
         }
     }
 
-    /**
-     * 获取叶子的Y轴坐标
-     * @param leaf 叶子
-     * @return 经过计算的叶子Y轴坐标
-     */
     private fun getLeafLocationY(leaf: Leaf): Float {
         val w = (Math.PI * 2 / mProgressLen).toFloat()//角频率
         val A: Float//计算振幅值
@@ -495,157 +388,39 @@ class FallingLeavesView : View {
         return (A * Math.sin((w * leaf.x + leaf.n).toDouble()) + (mHeight - mLeafLen) / 2).toFloat()
     }
 
-    /**
-     * 绘制加载完成特效
-     */
-    private fun drawCompleted(canvas: Canvas) {
-        // 每次绘制风扇透明度递减10
-        var alpha = mCompletedFanPaint!!.getAlpha() - 10
-        if (alpha <= 0) {
-            alpha = 0
-        }
-        mCompletedFanPaint!!.setAlpha(alpha)
-        // 文字透明度刚好与风扇相反
-        mCompletedTextPaint!!.setAlpha(255 - alpha)
-        // 计算透明因子
-        val fraction = alpha / 255f
-        // 叶片大小 和 文字大小 也是相反变化的
-        val fanLen = fraction * mFanLen
-        val textSize = (1 - fraction) * mCompletedTextSize
-        mCompletedTextPaint!!.setTextSize(textSize)
-        drawFan(canvas, fanLen.toInt(), mCompletedFanPaint)
-        //测量文字占用空间
-        val bounds = Rect()
-        mCompletedTextPaint!!.getTextBounds(
-            LOADING_COMPLETED,
-            0,
-            LOADING_COMPLETED.length,
-            bounds
-        )
-        //画文字
-        canvas.drawText(
-            LOADING_COMPLETED,
-            0,
-            LOADING_COMPLETED.length,
-            mFanCx - bounds.width() / 2f,
-            mFanCy + bounds.height() / 2f,
-            mCompletedTextPaint!!
-        )
-    }
 
-    /**
-     * 右边转动的扇子
-     */
-    private fun drawFan(canvas: Canvas, fanLen: Int, paint: Paint?) {
-        canvas.save()
-        val matrix = Matrix()
-        //缩放到合适大小
-        val scaleX = fanLen * 2f / mFanBitmapWidth
-        val scaleY = fanLen * 2f / mFanBitmapHeight
-        matrix.postScale(scaleX, scaleY)
-        //平移
-        matrix.postTranslate((mFanCx - fanLen).toFloat(), (mFanCy - fanLen).toFloat())
-        //旋转
-        mFanRotationAngle = (mFanRotationAngle + mFanRotateSpeed) % 360
-        matrix.postRotate((-mFanRotationAngle).toFloat(), mFanCx.toFloat(), mFanCy.toFloat())
-        canvas.drawBitmap(mFanBitmap!!, matrix, paint)
-        canvas.restore()
-    }
-
-    /**
-     * 绘制进度
-     * @param progress 0-100
-     */
-    private fun drawProgress(canvas: Canvas, progress: Int) {
-        //圆的半径
-        val r = mYellowOvalHeight / 2
-        //水平长度（已减去两个半圆）
-        val len = mWidth - mHeight
-        val circleProgress = 100f * r / (r + len)//左边半圆满时所对应的进度
-        val rectProgress = 100f - circleProgress//单单中间矩形满所对应的进度
-
-        if (progress < circleProgress) {
-            //半圆内进度
-            canvas.drawArc(
-                mProgressMargin.toFloat(),
-                (mHeight / 2 - r).toFloat(),
-                (2 * r + mProgressMargin).toFloat(),
-                (mHeight / 2 + r).toFloat(),
-                (2 - progress / circleProgress) * 90,
-                180 * progress / circleProgress,
-                false,
-                mProgressPaint!!
-            )
-        } else {
-            canvas.drawArc(
-                mProgressMargin.toFloat(),
-                (mHeight / 2 - r).toFloat(),
-                (2 * r + mProgressMargin).toFloat(),
-                (mHeight / 2 + r).toFloat(),
-                90f,
-                180f,
-                false,
-                mProgressPaint!!
-            )
-            canvas.drawRect(
-                (mProgressMargin + r).toFloat(),
-                (mHeight / 2 - r).toFloat(),
-                r + (progress - circleProgress) / rectProgress * len,
-                (mHeight / 2 + r).toFloat(),
-                mProgressPaint!!
-            )
-        }
-    }
-
-    /**
-     * 叶子图片
-     * @param resId 图片资源ID
-     */
     fun setLeafSrc(@DrawableRes resId: Int) {
         mLeafBitmap = (getResources().getDrawable(resId) as BitmapDrawable).bitmap
         postInvalidate()
     }
 
-    /**
-     * 风扇图片
-     * @param resId 图片资源ID
-     */
+
     fun setFanSrc(@DrawableRes resId: Int) {
         mFanBitmap = (getResources().getDrawable(resId) as BitmapDrawable).bitmap
         postInvalidate()
     }
 
-    /**
-     * 设置进度条颜色
-     */
+
     fun setProgressColor(@ColorInt color: Int) {
         mProgressColorId = color
         mProgressPaint!!.setColor(mProgressColorId)
         postInvalidate()
     }
 
-    /**
-     * 设置背景颜色
-     */
+
     fun setBgColor(@ColorInt color: Int) {
         mBgColorId = color
         mBgPaint!!.setColor(mBgColorId)
         postInvalidate()
     }
 
-    /**
-     * 设置风扇描边颜色
-     */
+
     fun setFanStroke(@ColorInt color: Int) {
         mFanStrokeColorId = color
         mFanStrokePaint!!.setColor(mFanStrokeColorId)
         postInvalidate()
     }
 
-    /**
-     * 设置风扇旋转速度
-     * @param speed 默认值为 5
-     */
     fun setFanRotateSpeed(speed: Int) {
         var speed = speed
         if (speed < 0) {
@@ -655,17 +430,13 @@ class FallingLeavesView : View {
         postInvalidate()
     }
 
-    /**
-     * 叶子飘动的振幅
-     */
-    private enum class AmplitudeType {
+
+    enum class AmplitudeType {
         LITTLE, MIDDLE, BIG
     }
 
-    /**
-     * 旋转方向
-     */
-    private enum class RotateDir {
+
+    enum class RotateDir {
         CLOCKWISE, //顺时针
         ANTICLOCKWISE//逆时针
     }
