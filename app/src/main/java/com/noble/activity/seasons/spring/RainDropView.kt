@@ -35,10 +35,7 @@ class RainDropView @JvmOverloads constructor(context: Context, @Nullable attrs: 
     private var WATER_R = 3f
     private var MAX_ALPHA = 30 // Max 255
 
-    private val DIFF_TIME = 16
-
     private var hasAlphaGrad = true
-    private var runnable: Runnable? = null
 
     init {
         init(context, attrs)
@@ -78,20 +75,6 @@ class RainDropView @JvmOverloads constructor(context: Context, @Nullable attrs: 
         mPaint!!.style = Paint.Style.FILL
 
         mPath = Path()
-
-        runnable = Runnable {
-            invalidate()
-            postDelayed(runnable, DIFF_TIME.toLong())
-        }
-        postDelayed(runnable, DIFF_TIME.toLong())
-    }
-
-    override fun onVisibilityChanged(@NonNull changedView: View, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        removeCallbacks(runnable)
-        if (visibility == View.VISIBLE) {
-            post(runnable)
-        }
 
     }
 
@@ -203,5 +186,8 @@ class RainDropView @JvmOverloads constructor(context: Context, @Nullable attrs: 
 
             canvas.drawPath(mPath!!, mPaint!!)
         }
+
+        invalidate()
+
     }
 }
