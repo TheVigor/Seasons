@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">snowy</string>
+    <string name="maxSize">0.01</string>
 </resources>
