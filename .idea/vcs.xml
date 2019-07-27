@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/2048-kotlin-android" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/DembelIsComing" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FirebaseMessenger" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/JustMovie" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MementoMori" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MyAndroid" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Popcorn Movies/JustMovie-master" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Udacity/HelloKotlin" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WAStickers/androidInternetMemes" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WAStickers/androidNeuroAnimals" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/dev-intensive-2019" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/devfest-2018-app-master" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/flutter_app" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/gitlab-client" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/guild-flutter/flutter_app" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/svaped" vcs="Git" />
+  </component>
+</project>
